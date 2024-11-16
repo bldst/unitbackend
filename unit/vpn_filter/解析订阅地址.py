@@ -57,7 +57,7 @@ class Test_AND_OutIp:
                 # 检测ip是否可以用
                 self.test_ip(text, jsondata['add'])
             if result:
-                print(result.group(1))
+                #print(result.group(1))
                 # 检测ip是否可以用
                 self.test_ip(text, result.group(1))
 
@@ -67,7 +67,7 @@ class Test_AND_OutIp:
         # 把test_is_ok_share_links保存到test_is_ok.txt
 
         # 打开static目录下的test_is_ok.txt
-        with open(file='static/' + TIME + '_test_is_ok.txt', mode='w') as f:
+        with open(file='static/' + TIME + '_test_is_ok.txt', mode='a') as f:
             for link in self.test_is_ok_share_links:
                 link = str(link) + '\n'
                 f.write(str(link))
@@ -106,8 +106,8 @@ def base64_decode():
 if __name__ == '__main__':
 
     Subscription_url_list = []  # 订阅地址的url列表
-    url1 = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E8%AE%A2%E9%98%85%E5%9C%B0%E5%9D%80.txt"
-    url = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E6%B5%8B%E8%AF%95"
+    url = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E8%AE%A2%E9%98%85%E5%9C%B0%E5%9D%80.txt"
+    #url = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E6%B5%8B%E8%AF%95"
     res = requests.get(url, timeout=10)
     if res.status_code == 200:
         # 去除 \n \r 空格

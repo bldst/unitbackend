@@ -18,3 +18,4 @@ def get_subscription(request):
             return response
     except FileNotFoundError:
         return HttpResponse("文件未找到", status=404)
+
