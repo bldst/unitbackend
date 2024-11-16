@@ -1,5 +1,4 @@
-import requests
-url = "https://nodefree.githubrowcontent.com/2024/11/20241110.txt"
-res = requests.get(url, timeout=10)
-if res.status_code == 200:
-    print(res.text)
+import time
+# 输出当前当前月、日、时、分
+TIME=time.strftime("%m-%d %H:%M:%S", time.localtime())
+print(TIME)
