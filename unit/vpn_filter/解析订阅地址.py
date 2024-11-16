@@ -1,10 +1,13 @@
 import re
 import time
-from base64 import b64decode
+from base64 import b64decode, b64encode
 import ping3
 import json
 import requests
 import threading
+
+TIME = time.strftime("%m-%d%H", time.localtime())
+
 
 class Test_AND_OutIp:
     def __init__(self):
@@ -31,9 +34,9 @@ class Test_AND_OutIp:
     def get_share_links(self):
         try:
             # 获取订阅地址的内容（base64转码后的内容）
-            content = requests.get(self.subscription_url,timeout=10).text
+            content = requests.get(self.subscription_url, timeout=10).text
         except Exception as e:
-            print("请求地址：" + self.subscription_url + "失败,原因:"+str(e))
+            print("请求地址：" + self.subscription_url + "失败,原因:" + str(e))
             return
         if content is None:
             print("请求地址：" + self.subscription_url + "没有实际内容")
@@ -62,11 +65,12 @@ class Test_AND_OutIp:
         if self.test_is_ok_share_links is None:
             return
         # 把test_is_ok_share_links保存到test_is_ok.txt
-        TIME = time.strftime("%m-%d%H", time.localtime())
+
         # 打开static目录下的test_is_ok.txt
-        with open(file='static/' + TIME + '_test_is_ok.txt', mode='a') as f:
+        with open(file='static/' + TIME + '_test_is_ok.txt', mode='w') as f:
             for link in self.test_is_ok_share_links:
-                f.write(str(link) + '\n')
+                link = str(link) + '\n'
+                f.write(str(link))
 
     def main(self):
         try:
@@ -74,7 +78,6 @@ class Test_AND_OutIp:
             self.output_share_links()
         except Exception as e:
             print(e)
-
 
 
 def main(subscription_url_list):
@@ -87,10 +90,24 @@ def main(subscription_url_list):
         except Exception as e:
             print(e)
         print("------------------------完成一个------------------------")
+
+
+# 把获取到的全部节点信息进行base64编码
+def base64_decode():
+    # 读取test_is_ok.txt，内容使用base64编码
+    with open(file='static/' + TIME + '_test_is_ok.txt', mode='r') as f:
+        content = f.read()
+        content_encode = b64encode(content.encode('utf-8')).decode('utf-8')
+        # 把content_encode保存到test_is_ok.txt
+        with open(file='static/test_is_ok.txt', mode='w') as f:
+            f.write(content_encode)
+
+
 if __name__ == '__main__':
 
     Subscription_url_list = []  # 订阅地址的url列表
-    url = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E8%AE%A2%E9%98%85%E5%9C%B0%E5%9D%80.txt"
+    url1 = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E8%AE%A2%E9%98%85%E5%9C%B0%E5%9D%80.txt"
+    url = "https://raw.githubusercontent.com/bldst/kexue-subscribe-/refs/heads/main/%E6%B5%8B%E8%AF%95"
     res = requests.get(url, timeout=10)
     if res.status_code == 200:
         # 去除 \n \r 空格
@@ -119,4 +136,5 @@ if __name__ == '__main__':
     # 等待两个线程都执行完毕
     thread1.join()
     thread2.join()
-
+    # 编码
+    base64_decode()
