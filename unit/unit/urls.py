@@ -19,5 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('vpn_filter/', include('vpn_filter.urls'))
+    path('vpn_filter/', include('vpn_filter.urls')),
+    path('hpc/', include('forwardToHpc.urls'))
 ]

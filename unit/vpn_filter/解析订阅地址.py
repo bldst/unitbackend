@@ -116,25 +116,26 @@ if __name__ == '__main__':
         # 得到订阅地址列表
         Subscription_url_list = [item for item in res.split("\r") if item]
         print(Subscription_url_list)
-    else:
-        print("error")
-    # 启动线程
-    """
-    将列表平分给两个线程进行处理
-    """
-    num_elements = len(Subscription_url_list)
-    mid_index = num_elements // 2
-    list1 = Subscription_url_list[:mid_index]
-    list2 = Subscription_url_list[mid_index:]
-    # 创建两个线程
-    thread1 = threading.Thread(target=main, args=(list1,))
-    thread2 = threading.Thread(target=main, args=(list2,))
-    # 启动线程
-    thread1.start()
-    thread2.start()
+        # 启动线程
+        """
+        将列表平分给两个线程进行处理
+        """
+        num_elements = len(Subscription_url_list)
+        mid_index = num_elements // 2
+        list1 = Subscription_url_list[:mid_index]
+        list2 = Subscription_url_list[mid_index:]
+        # 创建两个线程
+        thread1 = threading.Thread(target=main, args=(list1,))
+        thread2 = threading.Thread(target=main, args=(list2,))
+        # 启动线程
+        thread1.start()
+        thread2.start()
 
-    # 等待两个线程都执行完毕
-    thread1.join()
-    thread2.join()
-    # 编码
-    base64_decode()
+        # 等待两个线程都执行完毕
+        thread1.join()
+        thread2.join()
+        # 编码
+        base64_decode()
+    else:
+        print("获取GitHub窗口的订阅链接失败")
+
